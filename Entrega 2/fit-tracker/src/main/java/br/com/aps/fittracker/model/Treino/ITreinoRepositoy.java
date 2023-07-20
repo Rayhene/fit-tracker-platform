@@ -1,4 +1,4 @@
-package br.com.aps.fittracker.model.Treino;
+package br.com.aps.fittracker.model.treino;
 
 public interface ITreinoRepositoy {
 

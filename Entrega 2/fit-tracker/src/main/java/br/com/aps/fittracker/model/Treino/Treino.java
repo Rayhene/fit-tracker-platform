@@ -1,6 +1,13 @@
-package br.com.aps.fittracker.model.Treino;
+package br.com.aps.fittracker.model.treino;
 
-import jakarta.persistence.*;
+import java.util.List;
+
+import br.com.aps.fittracker.model.programado.ExercicioProgramado;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Treino {
@@ -10,8 +17,12 @@ public class Treino {
     private Long id; 
     private String nome;
     private String descricao;
+    
+    @OneToMany
+    private List<ExercicioProgramado> exerciciosProgramados;
 
     public Treino() {
+        System.out.println("Treino criado");
     }
 
     public Treino(String nome, String descricao) {
