@@ -25,7 +25,7 @@ public class Usuario {
     private double peso;
     private String objetivo;
 
-    @OneToMany
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Treino> treinos;
 
 

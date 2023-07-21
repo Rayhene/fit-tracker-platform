@@ -1,10 +1,13 @@
 package br.com.aps.fittracker.model.programado;
 
 import br.com.aps.fittracker.model.exercicio.Exercicio;
+import br.com.aps.fittracker.model.treino.Treino;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -17,6 +20,10 @@ public class ExercicioProgramado {
     private int repeticoes;
     private double carga;
     private int descanso;
+
+    @ManyToOne
+    @JoinColumn(name = "treino_id")
+    private Treino treino;
 
     public ExercicioProgramado() {}
     public ExercicioProgramado(Long id, int series, int repeticoes, double carga, int descanso) {

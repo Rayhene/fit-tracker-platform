@@ -3,11 +3,14 @@ package br.com.aps.fittracker.model.treino;
 import java.util.List;
 
 import br.com.aps.fittracker.model.programado.ExercicioProgramado;
+import br.com.aps.fittracker.model.usuario.Usuario;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -19,8 +22,12 @@ public class Treino {
     private String nome;
     private String descricao;
     
-    @OneToMany
+    @OneToMany(mappedBy = "treino", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ExercicioProgramado> exerciciosProgramados;
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 
     public Treino() {
         System.out.println("Treino criado");
