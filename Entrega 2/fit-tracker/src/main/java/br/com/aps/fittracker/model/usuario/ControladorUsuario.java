@@ -8,17 +8,14 @@ public class ControladorUsuario {
     private CadastroUsuario usuarioCadastro;
 
     public void inserir(Usuario usuario) {
-        // realizar alguma lógica de verificação para o controlador
         usuarioCadastro.inserir(usuario);
     }
 
     public void atualizar(Usuario usuario) {
-        // realizar alguma lógica de verificação para o controlador
         usuarioCadastro.atualizar(usuario);
     }
 
     public void remover(Long id) {
-        // realizar alguma lógica de verificação para o controlador
         usuarioCadastro.remover(id);
     }
 
@@ -28,7 +25,10 @@ public class ControladorUsuario {
         
         return usuarioCadastro.buscarPorEmail(email);
     }
-    //public Usuario buscarPorId(Long id);   
-    //public Usuario buscarPorEmail(String email);
+
+    public Usuario getUsuario(Long id) {
+        return usuarioCadastro.get(id);
+    }
+
 
 }

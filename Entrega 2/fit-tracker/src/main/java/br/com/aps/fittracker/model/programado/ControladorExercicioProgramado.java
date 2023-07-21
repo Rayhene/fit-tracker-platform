@@ -4,26 +4,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CadastroExercicioProgramado {
+public class ControladorExercicioProgramado {
     
     @Autowired
-    private IExercicioProgramadoRepository exercicioProgramadoRepository;
+    private CadastroExercicioProgramado cadastroExercicioProgramado;
 
     public void inserir(ExercicioProgramado exercicioProgramado) {
-        exercicioProgramadoRepository.inserir(exercicioProgramado);
+        cadastroExercicioProgramado.inserir(exercicioProgramado);
     }
 
     public void atualizar(ExercicioProgramado exercicioProgramado) {
-        exercicioProgramadoRepository.atualizar(exercicioProgramado);
+        cadastroExercicioProgramado.atualizar(exercicioProgramado);
     }
 
     public void remover(Long id) {
-        exercicioProgramadoRepository.remover(id);
+        cadastroExercicioProgramado.remover(id);
     }
 
     public ExercicioProgramado getExercicioProgramado(Long id) {
-        return exercicioProgramadoRepository.get(id);
+        return cadastroExercicioProgramado.getExercicioProgramado(id);
     }
-
 
 }

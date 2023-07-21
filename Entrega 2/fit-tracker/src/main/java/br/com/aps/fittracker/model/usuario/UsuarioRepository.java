@@ -29,4 +29,13 @@ public class UsuarioRepository implements IUsuarioRepository{
     public Usuario buscarPorEmail(String email) {
         return usuarioDAO.findByEmail(email);
     }
+
+    public Usuario get(Long id) {
+        Usuario usuario = null;
+        Optional<Usuario> option = usuarioDAO.findById(id);
+        if(option.isPresent()){
+            usuario = option.get();
+        }
+        return usuario;
+    }
 }

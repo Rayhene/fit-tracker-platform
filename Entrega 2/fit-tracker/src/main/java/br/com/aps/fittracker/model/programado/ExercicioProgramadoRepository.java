@@ -3,10 +3,12 @@ package br.com.aps.fittracker.model.programado;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import br.com.aps.fittracker.model.treino.Treino;
 
-public class RepositorioExercicioProgramado implements IRepositorioExercicioProgramado {
+@Component
+public class ExercicioProgramadoRepository implements IExercicioProgramadoRepository {
     
     @Autowired
     private ExercicioProgramadoDAO exercicioProgramadoDAO;
@@ -28,7 +30,7 @@ public class RepositorioExercicioProgramado implements IRepositorioExercicioProg
 
     @Override
     //Retornar null ou lançar exceção?
-    public ExercicioProgramado buscarPorId(Long id) {
+    public ExercicioProgramado get(Long id) {
         ExercicioProgramado exercicioProgramado = null;
         Optional<ExercicioProgramado> option = exercicioProgramadoDAO.findById(id);
         if(option.isPresent()){

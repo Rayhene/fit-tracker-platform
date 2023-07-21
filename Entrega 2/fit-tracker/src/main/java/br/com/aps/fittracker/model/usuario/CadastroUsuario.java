@@ -27,9 +27,10 @@ public class CadastroUsuario {
         // realizar alguma lógica de verificação para o cadastro
         return usuarioRepository.buscarPorEmail(email);
     }
-    // impementar
-    //public Usuario buscarPorId(Long id);   
-    //public Usuario buscarPorEmail(String email);
+    
+    public Usuario get(Long id) {
+        return usuarioRepository.get(id);
+    }
 
 
 }

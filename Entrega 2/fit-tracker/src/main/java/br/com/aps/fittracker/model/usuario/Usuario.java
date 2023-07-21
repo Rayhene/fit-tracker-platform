@@ -3,6 +3,7 @@ package br.com.aps.fittracker.model.usuario;
 import java.util.List;
 
 import br.com.aps.fittracker.model.treino.Treino;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
