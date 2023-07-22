@@ -15,16 +15,28 @@ public class CadastroUsuario {
     private IUsuarioRepository usuarioRepository;
     private IRepositorioFactory repositorioFactory;
 
-    @Autowired
+    /*@Autowired
     public CadastroUsuario(@Value("${app.repository.type}") String tipoRepositorio) {
         if(tipoRepositorio.equals("json")){
             this.repositorioFactory = RepositorioFileFactory.getInstance();
         } else { //default is bdr
             this.repositorioFactory = RepositorioBDRFactory.getInstance();
         }
-            
+        
         this.usuarioRepository = repositorioFactory.criarRepositorioUsuarios();
     }
+    @Autowired
+    public CadastroUsuario(RepositorioBDRFactory repositorioBDRFactory) {
+        this.usuarioRepository = repositorioFactory.criarRepositorioUsuarios();
+    }*/
+
+    @Autowired
+    public CadastroUsuario(IRepositorioFactory repositorioFactory, IUsuarioRepository usuarioRepositoryByFactory) {
+        this.repositorioFactory = repositorioFactory;
+        this.usuarioRepository = usuarioRepositoryByFactory;
+    }
+
+
 
     public void inserir(Usuario usuario) {
         // realizar alguma lógica de verificação para o cadastro

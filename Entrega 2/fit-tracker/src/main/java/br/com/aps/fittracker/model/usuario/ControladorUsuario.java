@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Value;
 //import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 //import javax.servlet.http.Cookie;
 //import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
@@ -27,7 +30,29 @@ public class ControladorUsuario { //extends UserDetailsServiceAutoConfiguration 
     private long jwtExpirationMs; */
 
     public void inserir(Usuario usuario) {
+        System.out.println("Inserindo usuário");
+        System.out.println(usuario);
+        // Verificações de validação
+        if (!isEmailValido(usuario.getEmail())) {
+            throw new IllegalArgumentException("Email inválido.");
+        } else if (buscarPorEmail(usuario.getEmail()) != null) {
+            throw new IllegalArgumentException("Email já cadastrado.");
+        } else if (usuario.getSenha().length() < 6) {
+            throw new IllegalArgumentException("A Senha deve ter no mínimo 6 caracteres.");
+        } 
+        // Criptografa a senha
+        usuario.setSenha(hashPassword(usuario.getSenha()));
+        // Cadastra o usuário
         usuarioCadastro.inserir(usuario);
+    }
+
+    public boolean login(String email, String senha) {
+        boolean resposta = true;
+        Usuario usuario = buscarPorEmail(email);
+        if (usuario == null || !verifyPassword(senha, usuario.getSenha())) {
+            resposta = false;
+        }
+        return resposta;
     }
 
     public void atualizar(Usuario usuario) {
@@ -47,6 +72,57 @@ public class ControladorUsuario { //extends UserDetailsServiceAutoConfiguration 
 
     public Usuario getUsuario(Long id) {
         return usuarioCadastro.get(id);
+    }
+
+    private boolean isEmailValido(String email) {
+        String regexPattern = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
+        return email.matches(regexPattern);
+    }
+
+    public String hashPassword(String senha) {
+        String hash = null;
+        
+        try {
+            // Cria o objeto MessageDigest para o algoritmo SHA-256
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+
+            // Calcula o hash da senha
+            byte[] hashedPassword = md.digest(senha.getBytes(StandardCharsets.UTF_8));
+
+            // Converte o hash para uma representação legível hexadecimal
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hashedPassword) {
+                hexString.append(String.format("%02x", b));
+            }
+            hash = hexString.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return hash;
+    } 
+
+    public boolean verifyPassword(String senha, String hashedPassword) {
+        String hashedAttempt = hashPassword(senha);
+        return hashedAttempt.equals(hashedPassword);
+    }
+
+    public static void main(String[] args) {
+        ControladorUsuario controladorUsuario = new ControladorUsuario();
+        String senha = "123456";
+        String hash = controladorUsuario.hashPassword(senha);
+        System.out.println(senha + "\n" + hash);
+
+        senha = "123456";
+        hash = controladorUsuario.hashPassword(senha);
+        System.out.println(senha + "\n" + hash);
+
+        senha = "000000";
+        hash = controladorUsuario.hashPassword(senha);
+        System.out.println(senha + "\n" + hash);
+
+        System.out.println(controladorUsuario.isEmailValido(".aksaf@fdlja."));
+        System.out.println(controladorUsuario.isEmailValido("aksaf@fdlja.s"));
     }
 
     /*

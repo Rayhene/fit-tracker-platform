@@ -5,17 +5,17 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import br.com.aps.fittracker.model.treino.Treino;
-
 @Component
-public class UsuarioRepository implements IUsuarioRepository{
+public class UsuarioRepository implements IUsuarioRepository {
 
-    @Autowired //injeção de dependência
-    private UsuarioDAO usuarioDAO; 
+    @Autowired
+    private UsuarioDAO usuarioDAO;
+
     
     public void inserir(Usuario usuario) {
         usuarioDAO.save(usuario);
     }
+    
     public void atualizar(Usuario usuario) {
         usuarioDAO.save(usuario);
     }

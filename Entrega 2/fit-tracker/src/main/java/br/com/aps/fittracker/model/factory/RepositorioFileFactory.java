@@ -26,7 +26,7 @@ public class RepositorioFileFactory implements IRepositorioFactory {
         }
         return instance;
     }
-
+    
     public IUsuarioRepository criarRepositorioUsuarios() {
         return new UsuarioRepositoryJSON();
     }
