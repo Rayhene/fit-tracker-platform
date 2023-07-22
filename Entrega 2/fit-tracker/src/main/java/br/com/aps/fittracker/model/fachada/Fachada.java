@@ -1,5 +1,7 @@
 package br.com.aps.fittracker.model.fachada;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,8 +14,8 @@ public class Fachada {
     @Autowired
     private ControladorTreino controladorTreino;
 
-    public void inserirTreino(String nome){
-        controladorTreino.inserir(nome);
+    public void inserirTreino(Treino treino){
+        controladorTreino.inserir(treino);
     }
 
     public void atualizarTreino(Treino treino){
@@ -22,6 +24,10 @@ public class Fachada {
 
     public void removerTreino(Long id){
         controladorTreino.remover(id);
+    }
+
+    public List<Treino> listarTreinosUsuario(Long usuarioId){
+        return controladorTreino.listarTreinosUsuario(usuarioId);
     }
     
 }

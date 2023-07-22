@@ -1,5 +1,6 @@
 package br.com.aps.fittracker.model.treino;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +25,17 @@ public class TreinoRepository implements ITreinoRepositoy{
     @Override
     public void remover(Long id){
 
-        Optional<Treino> treinoPOptional = treinoDAO.findById(id);
+        Optional<Treino> treinoOptional = treinoDAO.findById(id);
         Treino treino;
 
-        if(treinoPOptional.isPresent()){
-            treino = treinoPOptional.get();
+        if(treinoOptional.isPresent()){
+            treino = treinoOptional.get();
             treinoDAO.delete(treino);
         }
+    }
+
+    @Override
+    public List<Treino> listarTreinosUsuario(Long usuarioId){
+        return treinoDAO.findAllByUsuarioId(usuarioId);
     }
 }

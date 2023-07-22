@@ -1,18 +1,18 @@
 package br.com.aps.fittracker.model.treino;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TreinoService {
+public class CadastroTreino {
 
     @Autowired
     private ITreinoRepositoy treinoRepository;
 
 
-    public void inserir(String nome) {
-        Treino treino = new Treino();
-        treino.setNome(nome);
+    public void inserir(Treino treino) {
         treinoRepository.inserir(treino);
     }
 
@@ -27,6 +27,10 @@ public class TreinoService {
     // public List<Treino> consultarTreinos() {
     //     return treinoRepository.findAll();
     // }
+
+    public List<Treino> listarTreinosUsuario(Long usuarioId){
+        return treinoRepository.listarTreinosUsuario(usuarioId);
+    }
 
     // public Treino consultarTreinoPeloId(Long id) {
     //     return treinoRepository.findById(id)

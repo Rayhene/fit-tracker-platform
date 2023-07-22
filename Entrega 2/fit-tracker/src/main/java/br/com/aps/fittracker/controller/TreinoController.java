@@ -1,10 +1,12 @@
 package br.com.aps.fittracker.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -24,10 +26,8 @@ public class TreinoController {
     private Fachada fachada;
 
     @PostMapping
-    public String inserirTreino(@RequestBody Map<String, String> requestBody) {
-        String nome = requestBody.get("nome");
-        System.out.println(nome);   
-        fachada.inserirTreino(nome);
+    public String inserirTreino(@RequestBody Treino treino) {
+        fachada.inserirTreino(treino);
         return "Treino inserido com sucesso";
     }
 
@@ -35,6 +35,11 @@ public class TreinoController {
     public String atualizarTreino(Treino treino) {
         fachada.atualizarTreino(treino);
         return "Treino atualizado com sucesso";
+    }
+
+    @GetMapping("/usuario/{idUsuario}")
+    public List<Treino> listarTreinosUsuario(@PathVariable Long idUsuario) {
+        return fachada.listarTreinosUsuario(idUsuario);
     }
 
 
