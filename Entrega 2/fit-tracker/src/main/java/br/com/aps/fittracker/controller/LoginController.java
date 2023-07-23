@@ -38,7 +38,8 @@ public class LoginController {
             String email = loginRequest.get("email");
             String senha = loginRequest.get("senha");
             Usuario usuario = fachada.login(email, senha);
-            responseData.put("redirect", "/treinos/usuario/" + usuario.getId());
+            responseData.put("redirect", "/treinos");
+            responseData.put("usuarioId", Long.toString(usuario.getId()));
             return ResponseEntity.ok(responseData);
         } catch (IllegalArgumentException e) {
             responseData.put("msg", e.getMessage());
@@ -52,7 +53,8 @@ public class LoginController {
         Usuario usuario = null;
         try {
             usuario = fachada.loginGoogle(idToken);
-            responseData.put("redirect", "/treinos/usuario/" + usuario.getId());
+            responseData.put("redirect", "/treinos");
+            responseData.put("usuarioId", Long.toString(usuario.getId()));
             return ResponseEntity.ok(responseData);
         } catch (IllegalArgumentException e) {
            responseData.put("msg", e.getMessage());

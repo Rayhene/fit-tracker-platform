@@ -1,11 +1,13 @@
 package br.com.aps.fittracker.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,14 +24,30 @@ import br.com.aps.fittracker.model.fachada.Fachada;
 import br.com.aps.fittracker.model.treino.Treino;
 
 @RequestMapping(path="/treinos")
-@RestController
+@Controller
 public class TreinoController {
 
     @Autowired
     private Fachada fachada;
 
 
-    
+    @GetMapping
+    public String listarTreinosUsuario(@CookieValue(value = "usuarioId", required = false) String usuarioId, Model model) {
+        List<Treino> treinos = new ArrayList<>();
+        String msg;
+        if (usuarioId == null) {
+            // Handle the case where userId cookie is not present
+            // For example, you can redirect the user to a login page or return an error message
+            msg = "Ainda não há treinos cadastrados";
+        } else {
+            treinos = fachada.listarTreinosUsuario(Long.parseLong(usuarioId));
+            msg = "Seus treinos cadastrados";
+        }
+        model.addAttribute("mensagem", msg);
+        model.addAttribute("treinos", treinos);
+       
+        return "treinos";
+    }
 
     @PostMapping
     public String inserirTreino(@RequestBody Treino treino) {

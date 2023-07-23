@@ -24,30 +24,37 @@
             <login></login>
         </div>
     </div>
+
   <!-- Google sign in config -->
   
-  <!--div id="g_id_onload"
-     data-client_id="889300390707-48al1vnmoauo0t3n9bacln04t11mkg4n.apps.googleusercontent.com"
-     data-context="signin"
-     data-ux_mode="popup"
-     data-login_uri="http://localhost:8080"
-     data-auto_prompt="false"
-     data-callback="handleCredentialResponse">
-    </div-->
-
-    <!--div class="g_id_signin"
-        data-type="standard"
-        data-shape="pill"
-        data-theme="outline"
-        data-text="signin_with"
-        data-size="large"
-        data-logo_alignment="left">
-    </div-->
-
     <script>
+        // utils
+      function setCookie(usuarioId) {
+        const expiryDate = new Date();
+        expiryDate.setMinutes(expiryDate.getMinutes() + 30); // 30 minutes
+        document.cookie = `usuarioId=${usuarioId}; expires=${expiryDate.toUTCString()}; path=/`;
+      }
+      function sendLoginRequest(url, data) {
+        axios
+            .post(url, data)
+                .then(response => {
+                    setCookie(response.data.usuarioId);
+                    window.location.href = response.data.redirect;
+                    console.log("Form submitted successfully!");
+                    console.log(response.status);
+                    console.log(response.data);
+                })
+                .catch(error => {
+                  alert (error.response.data.msg);
+                  console.error("Error submitting the form:", error);
+                });
+      }
+
         // Login com google
       function handleCredentialResponse(response) {
         console.log("Encoded JWT ID token: " + response.credential);
+        sendLoginRequest("/login/google", response.credential);
+        /*
         axios
             .post("/login/google", response.credential)
                 .then(response => {
@@ -59,7 +66,7 @@
                 .catch(error => {
                   alert (error.response.data.msg);
                   console.error("Error submitting the form:", error);
-                });
+                });*/
 
       }
       window.onload = function () {
@@ -73,6 +80,8 @@
         );
         //google.accounts.id.prompt(); // also display the One Tap dialog
       }
+
+      
   </script>
   
 
@@ -139,7 +148,8 @@
                     senha: this.senha
             };
             console.log(dados);
-
+            sendLoginRequest("/login", dados);
+            /*
             axios
                 .post("/login", dados)
                 .then(response => {
@@ -147,11 +157,12 @@
                     console.log(response.status);
                     console.log(response.data);
                     window.location.href = response.data.redirect;
+                    
                 })
                 .catch(error => {
                   alert(error.response.data.msg)
                   console.error("Error submitting the form:", error);
-                });
+                });*/
                 this.loading = false
                 setTimeout(() => (this.loading = false), 2000)
         },
