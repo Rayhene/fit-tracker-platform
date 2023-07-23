@@ -39,8 +39,12 @@ public class Fachada {
         controladorUsuario.inserir(usuario);
     }
 
-    public boolean login(String email, String senha) {
+    public Usuario login(String email, String senha) {
         return controladorUsuario.login(email, senha);
+    }
+
+    public Usuario loginGoogle(String idToken) {
+        return controladorUsuario.loginGoogle(idToken);
     }
     
 }

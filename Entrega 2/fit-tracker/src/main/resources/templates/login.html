@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Fit Tracker - Login</title>
+  <!-- Include Vuetify and Vue.js from CDNs -->
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.5.11/dist/vuetify.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.5.11/dist/vuetify.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <!-- Google Sign-In -->
+  <script src="https://accounts.google.com/gsi/client" async></script>
+</head>
+<body style="display: flex; justify-content: center; align-items: center; ">
+
+    
+    <div id="wrapper">
+        <br><br><br>
+        <div><h1 style="margin-bottom:30px;text-align:center;position:relative;color:rgb(58, 98, 98);font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">FIT TRACKER</h1></div>
+        <!-- Google sign in button -->
+        <div class="g-signin" id="buttonDiv"></div> 
+        <!-- Mount point for the Vue app -->
+        <div id="app">
+            <login></login>
+        </div>
+    </div>
+  <!-- Google sign in config -->
+  
+  <!--div id="g_id_onload"
+     data-client_id="889300390707-48al1vnmoauo0t3n9bacln04t11mkg4n.apps.googleusercontent.com"
+     data-context="signin"
+     data-ux_mode="popup"
+     data-login_uri="http://localhost:8080"
+     data-auto_prompt="false"
+     data-callback="handleCredentialResponse">
+    </div-->
+
+    <!--div class="g_id_signin"
+        data-type="standard"
+        data-shape="pill"
+        data-theme="outline"
+        data-text="signin_with"
+        data-size="large"
+        data-logo_alignment="left">
+    </div-->
+
+    <script>
+        // Login com google
+      function handleCredentialResponse(response) {
+        console.log("Encoded JWT ID token: " + response.credential);
+        axios
+            .post("/login/google", response.credential)
+                .then(response => {
+                    window.location.href = response.data.redirect;
+                    console.log("Form submitted successfully!");
+                    console.log(response.status);
+                    console.log(response.data);
+                })
+                .catch(error => {
+                  alert (error.response.data.msg);
+                  console.error("Error submitting the form:", error);
+                });
+
+      }
+      window.onload = function () {
+        google.accounts.id.initialize({
+          client_id: "889300390707-48al1vnmoauo0t3n9bacln04t11mkg4n.apps.googleusercontent.com",
+          callback: handleCredentialResponse
+        });
+        google.accounts.id.renderButton(
+          document.getElementById("buttonDiv"),
+          { theme: "filled_blue", size: "large", shape: "pill", width: "350", logo_alignment: "left" }  // customization attributes
+        );
+        //google.accounts.id.prompt(); // also display the One Tap dialog
+      }
+  </script>
+  
+
+  <!-- Vue component inline script -->
+  <script>
+    // Define the local Vue component
+    Vue.component('login', {
+      template: `
+        <v-app height="200">
+          <v-container height="200">
+
+            <v-card class="mx-auto px-1 pb-8" min-width="200" max-width="400"  elevation="0">
+                <v-card-subtitle class="d-flex justify-center text-wrap pa-10">Ou digite seus dados do sistema...</v-card-subtitle>
+
+                <v-form v-model="form" @submit.prevent="onSubmit" class="d-flex flex-column justify-end">
+                    
+                        
+                    <v-text-field v-model="email" :readonly="loading" :rules="[rules.required, rules.validEmail]"
+                        type="email" class="my-0 py-0" clearable label="Email" density="compact"
+                        validate-on="blur"></v-text-field>
+                
+                    <v-text-field v-model="senha" :append-inner-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                        :type="show ? 'text' : 'password'" :rules="[rules.required, rules.validPassword]"
+                        :readonly="loading" class="my-0 py-0" clearable label="Senha" density="compact"
+                        placeholder="Digite sua senha" validate-on="input"
+                        @click:append-inner="show = !show"></v-text-field>
+                
+
+                    <v-spacer></v-spacer>
+
+                    <v-btn class="mt-16 white--text font-weight-bold" prepend-icon="mdi-plus-circle-multiple"  :loading="loading"
+                        block color="teal" size="large" type="submit" rounded variant="elevated">
+                        Login
+                    </v-btn>
+                </v-form>
+
+                <p class="px-4 mt-2">Clique <a href="/signup" >aqui</a> para criar uma nova conta.</p>
+        
+            </v-card>
+
+          </v-container>
+        </v-app>
+      `,
+      
+      data: () => ({
+        form: false,
+        show: false,
+        email: null,
+        senha: null,
+        loading: false,
+        rules: {
+            required: (value) => !!value || 'Campo obrigatório',
+            validEmail: (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || 'Email inválido',
+            validPassword: (value) => /^\S{6,}$/.test(value) || 'A senha deve ter 6 caracteres ou mais',
+        },
+    }),
+      methods: {
+        async onSubmit() {          // Login sem google
+            if (!this.form) return
+            this.loading = true
+
+            const dados = {
+                    email: this.email,
+                    senha: this.senha
+            };
+            console.log(dados);
+
+            axios
+                .post("/login", dados)
+                .then(response => {
+                    console.log("Form submitted successfully!");
+                    console.log(response.status);
+                    console.log(response.data);
+                    window.location.href = response.data.redirect;
+                })
+                .catch(error => {
+                  alert(error.response.data.msg)
+                  console.error("Error submitting the form:", error);
+                });
+                this.loading = false
+                setTimeout(() => (this.loading = false), 2000)
+        },
+      },
+    });
+
+    // Create the Vue app
+    new Vue({
+      el: '#app',
+      vuetify: new Vuetify(),
+    });
+  </script>
+</body>
+</html>

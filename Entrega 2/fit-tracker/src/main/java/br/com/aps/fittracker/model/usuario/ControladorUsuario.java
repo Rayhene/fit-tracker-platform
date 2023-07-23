@@ -17,23 +17,17 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 @Service
-public class ControladorUsuario { //extends UserDetailsServiceAutoConfiguration {
+public class ControladorUsuario {
     
     @Autowired
     private CadastroUsuario usuarioCadastro;
 
-    /*
-    @Value("${app.jwtSecret}") // Defina a chave secreta no arquivo application.properties
-    private String jwtSecret;
+    @Autowired
+    private ISubsistemaComunicacaoGoogle subsistemaComunicacaoGoogle;
 
-    @Value("${app.jwtExpirationMs}") // Defina o tempo de expiração do token no arquivo application.properties
-    private long jwtExpirationMs; */
 
     public void inserir(Usuario usuario) {
-        System.out.println("Inserindo usuário");
-        System.out.println(usuario);
-        // Verificações de validação
-        if (!isEmailValido(usuario.getEmail())) {
+         if (!isEmailValido(usuario.getEmail())) {
             throw new IllegalArgumentException("Email inválido.");
         } else if (buscarPorEmail(usuario.getEmail()) != null) {
             throw new IllegalArgumentException("Email já cadastrado.");
@@ -46,13 +40,26 @@ public class ControladorUsuario { //extends UserDetailsServiceAutoConfiguration 
         usuarioCadastro.inserir(usuario);
     }
 
-    public boolean login(String email, String senha) {
-        boolean resposta = true;
+    public Usuario login(String email, String senha) {
         Usuario usuario = buscarPorEmail(email);
         if (usuario == null || !verifyPassword(senha, usuario.getSenha())) {
-            resposta = false;
+            throw new IllegalArgumentException("Conta inexistente ou senha incorreta.");
         }
-        return resposta;
+        return usuario;
+    }
+
+    public Usuario loginGoogle(String idToken) {
+        String email = subsistemaComunicacaoGoogle.getEmailFromTokenGoogle(idToken);
+        Usuario usuario = null;
+        if (email == null) {
+            throw new IllegalArgumentException("Credenciais Google inválidas.");
+        } else {
+            usuario = buscarPorEmail(email);
+            if (usuario == null) {
+                throw new IllegalArgumentException("Não existe conta cadastrada com esse email.");
+            }
+        } 
+        return usuario;
     }
 
     public void atualizar(Usuario usuario) {
@@ -124,6 +131,7 @@ public class ControladorUsuario { //extends UserDetailsServiceAutoConfiguration 
         System.out.println(controladorUsuario.isEmailValido(".aksaf@fdlja."));
         System.out.println(controladorUsuario.isEmailValido("aksaf@fdlja.s"));
     }
+
 
     /*
     //Autenticação

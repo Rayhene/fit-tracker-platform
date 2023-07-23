@@ -40,6 +40,13 @@ public class Treino {
         this.descricao = descricao;
     }
 
+    public Treino(Long id, String nome, String descricao, Usuario usuario) {
+        this.id = id;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.usuario = usuario;
+    }
+
     public Long getId() {
         return id;
     }
@@ -71,4 +78,14 @@ public class Treino {
     public void setExercicios(List<String> exercicios) {
         this.exercicios = exercicios;
     }
+
+    public void getUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+  
 }
