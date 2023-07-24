@@ -1,6 +1,9 @@
-package br.com.aps.fittracker.model.exercicio;
+package br.com.aps.fittracker.model.controladores;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import br.com.aps.fittracker.model.exercicio.CadastroExercicio;
+import br.com.aps.fittracker.model.exercicio.Exercicio;
 
 public class ControladorExercicio {
 

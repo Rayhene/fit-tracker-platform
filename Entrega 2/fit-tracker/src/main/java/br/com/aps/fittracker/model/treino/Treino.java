@@ -2,13 +2,16 @@ package br.com.aps.fittracker.model.treino;
 
 import java.util.List;
 
+import br.com.aps.fittracker.model.programado.ExercicioProgramado;
 import br.com.aps.fittracker.model.usuario.Usuario;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Treino {
@@ -18,17 +21,18 @@ public class Treino {
     private Long id; 
     private String nome;
     private String descricao;
-    private List<String> exercicios;
+    
+    @OneToMany(mappedBy = "treino", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ExercicioProgramado> exercicios;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
     public Treino() {
-        System.out.println("Treino criado");
     }
 
-    public Treino(String nome, String descricao, List<String> exercicios) {
+    public Treino(String nome, String descricao, List<ExercicioProgramado> exercicios) {
         this.nome = nome;
         this.descricao = descricao;
         this.exercicios = exercicios;
@@ -59,7 +63,7 @@ public class Treino {
         return descricao;
     }
 
-    public List<String> getExercicios() {
+    public List<ExercicioProgramado> getExercicios() {
         return exercicios;
     }
 
@@ -75,7 +79,7 @@ public class Treino {
         this.descricao = descricao;
     }
 
-    public void setExercicios(List<String> exercicios) {
+    public void setExercicios(List<ExercicioProgramado> exercicios) {
         this.exercicios = exercicios;
     }
 

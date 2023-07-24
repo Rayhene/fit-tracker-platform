@@ -49,6 +49,9 @@
             border: none;
             cursor: pointer;
         }
+        .exercise-names {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -65,12 +68,17 @@
         <tr>
             <th>Nome</th>
             <th>Descrição</th>
+            <th>Exercícios</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="treino : ${treinos}" th:attr="onclick='viewTreinoDetails(\'' + ${treino.id} + '\')'">
             <td th:text="${treino.nome}"></td>
             <td th:text="${treino.descricao}"></td>
+            <td>
+                <!-- Display all exercise names in a single line -->
+                <span th:each="exercicio : ${treino.exercicios}" th:text="${exercicio.nome}" class="exercise-names"></span>
+            </td>
         </tr>
         </tbody>
     </table>
@@ -81,12 +89,12 @@
     </div>
 
     <!-- Adicionar Novo Treino button -->
-    <button class="add-button" onclick="window.location.href='/adicionarNovoTreino'">Adicionar Novo Treino</button>
+    <button class="add-button" onclick="window.location.href='/addtreino'">Adicionar Novo Treino</button>
 </div>
 
 <script>
     function viewTreinoDetails(treinoId) {
-        window.location.href = '/treinos/ver?id=' + treinoId;
+        window.location.href = '/editartreino/' + treinoId;
     }
 </script>
 

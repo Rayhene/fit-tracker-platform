@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Fit Tracker - Treino</title>
+  <!-- Add Vuetify CSS via CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.6.3/dist/vuetify.min.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Add your Vue component here -->
+  <div id="app">
+    <v-app>
+      <v-main>
+        <v-container>
+          <treino-list :exercicios="exercicios"></treino-list>
+        </v-container>
+      </v-main>
+    </v-app>
+  </div>
+
+  <!-- Add Vue and Vuetify scripts via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.6.3/dist/vuetify.js"></script>
+
+  <!-- Your Vue component code -->
+  <template id="treino-list">
+    <v-card class="mx-auto" minWidth="300" elevation="0">
+      <v-list>
+        <v-list-item
+          rounded="xl"
+          variant="tonal"
+          class="my-2"
+          v-for="(exercicio, index) in exercicios"
+          :key="index"
+          @click="openDialog(exercicio)"
+        >
+          <template v-slot:prepend>
+            <v-icon :icon="'mdi-dumbbell'"></v-icon>
+          </template>
+          <v-list-item-content>
+            <v-list-item-title>
+              {{ exercicio.name }}
+            </v-list-item-title>
+            <v-list-item-subtitle class="d-flex">
+              <span class="ml-2 mr-auto my-1 font-italic">{{
+                'Séries/Reps: ' + exercicio.series + '/' + exercicio.reps
+              }}</span>
+              <span class="my-1 font-italic">{{ exercicio.carga + 'kg' }}</span>
+            </v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item class="my-2" @click="newExercise" rounded="xl"
+          variant="tonal">
+          <template v-slot:prepend>
+            <v-icon :icon="'mdi-plus'"></v-icon>
+          </template>
+
+          <template v-slot:default>
+            <v-list-item-content>
+              <v-list-item-title>Adicionar exercício</v-list-item-title>
+            </v-list-item-content>
+          </template>
+
+        </v-list-item>
+
+      </v-list>
+      <v-dialog v-model="dialog" max-width="300">
+        <v-card>
+
+
+          <v-card-text>
+            <v-form>
+              <v-text-field
+                v-model="selectedExercise.name"
+                label="Nome do Exercício"
+              ></v-text-field>
+              <div class="d-flex">
+                <v-text-field
+                  v-model="selectedExercise.series"
+                  label="Séries"
+                  class="mr-4"
+                ></v-text-field>
+                <v-text-field v-model="selectedExercise.reps" label="Repetições"></v-text-field>
+              </div>
+              <v-text-field v-model="selectedExercise.carga" label="Carga"></v-text-field>
+              <v-card-actions class="d-flex justify-center">
+                <v-btn rounded="xl" class="salvar-button" @click="saveExercise">Salvar</v-btn>
+                <v-btn rounded="xl" color="red darken-1" class="delete-button" @click="deleteExercise">Excluir</v-btn>
+                <v-btn rounded="xl" variant="tonal" color="grey darken-2" @click="closeDialog"
+                  >Cancelar</v-btn
+                >
+              </v-card-actions>
+            </v-form>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
+    </v-card>
+  </template>
+
+  <script>
+    // Define the Vue component
+    Vue.component('treino-list', {
+      props: {
+        exercicios: {
+          type: () => Array,
+          required: true,
+          default: [
+            {
+              name: 'Agachamento',
+              series: 4,
+              reps: 12,
+              carga: 35
+            },
+            // Add more default exercises here...
+          ]
+        }
+      },
+      methods: {
+        // Rest of the methods remain the same...
+      },
+      data() {
+        return {
+          // Rest of the data properties remain the same...
+        }
+      }
+    });
+
+    new Vue({
+      el: '#app',
+      vuetify: new Vuetify()
+    });
+  </script>
+
+  <style scoped>
+    /* Your custom CSS styles go here */
+    .salvar-button {
+      color: white;
+      background: var(--gradient-green);
+    }
+  </style>
+</body>
+</html>

@@ -1,4 +1,4 @@
-package br.com.aps.fittracker.model.usuario;
+package br.com.aps.fittracker.model.subsistemagoogle;
 
 public interface ISubsistemaComunicacaoGoogle {
     

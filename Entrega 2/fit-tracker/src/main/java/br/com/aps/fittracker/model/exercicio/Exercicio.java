@@ -16,6 +16,8 @@ public class Exercicio {
     private String descricao;
     private String musculo;
 
+
+
     public Exercicio() {}
     public Exercicio(Long id, String nome, String descricao, String musculo) {
         this.id = id;
@@ -29,6 +31,7 @@ public class Exercicio {
         this.musculo = musculo;
     }
 
+    
     //getters e setters
     public Long getId() {
         return id;
@@ -42,6 +45,20 @@ public class Exercicio {
     }
     public void setMusculo(String musculo) {
         this.musculo = musculo;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+    public void setDescricao(String descricao) {
+        this.descricao = descricao; 
+    }
+
+    public String getNome() {
+        return nome;
+    }
+    public void setNome(String nome) {
+        this.nome = nome;
     }
     
 }

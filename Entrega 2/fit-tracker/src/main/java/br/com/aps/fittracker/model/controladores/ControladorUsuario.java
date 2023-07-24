@@ -1,4 +1,4 @@
-package br.com.aps.fittracker.model.usuario;
+package br.com.aps.fittracker.model.controladores;
 
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
@@ -8,6 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 //import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import br.com.aps.fittracker.model.subsistemagoogle.ISubsistemaComunicacaoGoogle;
+import br.com.aps.fittracker.model.usuario.CadastroUsuario;
+import br.com.aps.fittracker.model.usuario.Usuario;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;

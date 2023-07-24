@@ -9,7 +9,6 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import br.com.aps.fittracker.model.usuario.Usuario;
 
 @Component
 public class UsuarioRepositoryJSON implements IUsuarioRepository {

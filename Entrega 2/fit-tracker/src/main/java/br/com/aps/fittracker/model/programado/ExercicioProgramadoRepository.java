@@ -5,8 +5,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import br.com.aps.fittracker.model.treino.Treino;
-
 @Component
 public class ExercicioProgramadoRepository implements IExercicioProgramadoRepository {
     
@@ -20,6 +18,11 @@ public class ExercicioProgramadoRepository implements IExercicioProgramadoReposi
 
     @Override
     public void atualizar(ExercicioProgramado exercicioProgramado) {
+        if(exercicioProgramado.getId() == null || !exercicioProgramadoDAO.existsById(exercicioProgramado.getId())){
+            throw new IllegalArgumentException("Exercício programado não localizado.");
+        }
+        ExercicioProgramado exercicioProgramadoFetched = get(exercicioProgramado.getId());
+        exercicioProgramado.setTreino(exercicioProgramadoFetched.getTreino());
         exercicioProgramadoDAO.save(exercicioProgramado);
     }
 

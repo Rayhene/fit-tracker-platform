@@ -1,6 +1,5 @@
 package br.com.aps.fittracker.model.programado;
 
-import br.com.aps.fittracker.model.exercicio.Exercicio;
 import br.com.aps.fittracker.model.treino.Treino;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,7 +7,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 
 @Entity
 public class ExercicioProgramado {
@@ -20,9 +18,10 @@ public class ExercicioProgramado {
     private int repeticoes;
     private double carga;
     private int descanso;
+    private String nome;
 
     @ManyToOne
-    @JoinColumn(name = "treino_id")
+    @JoinColumn(name = "treino_id", nullable = false)
     private Treino treino;
 
     public ExercicioProgramado() {}
@@ -40,12 +39,35 @@ public class ExercicioProgramado {
         this.descanso = descanso;
     }
 
+    public ExercicioProgramado(String nome, int series, int repeticoes, double carga, int descanso) {
+        this.nome = nome;
+        this.series = series;
+        this.repeticoes = repeticoes;
+        this.carga = carga;
+        this.descanso = descanso;
+    }
+    public ExercicioProgramado(String nome, int series, int repeticoes, double carga, int descanso, Long id) {
+        this.nome = nome;
+        this.series = series;
+        this.repeticoes = repeticoes;
+        this.carga = carga;
+        this.descanso = descanso;
+        this.id = id;
+    }
+
     //getters e setters
     public Long getId() {
         return id;
     }
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getNome(){
+        return nome;
+    }
+    public void setNome(String nome){
+        this.nome = nome;
     }
 
     public int getSeries() {
@@ -74,6 +96,13 @@ public class ExercicioProgramado {
     }
     public void setDescanso(int descanso) {
         this.descanso = descanso;
+    }
+
+    public Treino getTreino() {
+        return treino;
+    }
+    public void setTreino(Treino treino) {
+        this.treino = treino;
     }
 
     

@@ -23,11 +23,19 @@ public class ControladorTreino {
         cadastroTreino.atualizar(treino);
     }
 
+    public void atualizarNomeDescricao(Treino treino) {
+        cadastroTreino.atualizarNomeDescricao(treino);
+    }
+
     public void remover(Long id){
         cadastroTreino.remover(id);
     }
 
     public List<Treino> listarTreinosUsuario(Long usuarioId){
         return cadastroTreino.listarTreinosUsuario(usuarioId);
+    }
+
+    public Treino buscarTreinoPeloId(Long id) {
+        return cadastroTreino.buscarTreinoPeloId(id);
     }
 }

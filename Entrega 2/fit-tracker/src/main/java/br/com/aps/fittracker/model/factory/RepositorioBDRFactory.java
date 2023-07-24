@@ -1,6 +1,5 @@
 package br.com.aps.fittracker.model.factory;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +31,6 @@ public class RepositorioBDRFactory implements IRepositorioFactory{
     public IUsuarioRepository criarRepositorioUsuarios() {
         return new UsuarioRepository();
     }
-    
     public IExercicioRepository criarRepositorioExercicios() {
         return new ExercicioRepository();
     }

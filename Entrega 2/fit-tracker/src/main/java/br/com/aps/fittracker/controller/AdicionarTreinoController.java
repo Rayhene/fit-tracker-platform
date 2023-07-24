@@ -2,36 +2,46 @@ package br.com.aps.fittracker.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.annotation.JsonCreator.Mode;
-
+import br.com.aps.fittracker.model.exercicio.Exercicio;
 import br.com.aps.fittracker.model.fachada.Fachada;
 import br.com.aps.fittracker.model.treino.Treino;
 
-@RequestMapping(path="/treinos")
 @Controller
-public class TreinoController {
+@RequestMapping(path="/")
+public class AdicionarTreinoController {
 
     @Autowired
     private Fachada fachada;
 
+    @GetMapping("/addtreino")
+    public String adicionarTreino() {
+        return "addtreino";
+    }
 
+    @PostMapping("/addtreino")
+    public ResponseEntity<String> inserirTreino(@RequestBody Treino treino) {
+        try {
+            fachada.inserirTreino(treino);
+            return ResponseEntity.ok("Treino inserido com sucesso");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    /*
     @GetMapping
     public String listarTreinosUsuario(@CookieValue(value = "usuarioId", required = false) String usuarioId, Model model) {
         List<Treino> treinos = new ArrayList<>();
@@ -49,40 +59,8 @@ public class TreinoController {
        
         return "treinos";
     }
+     */
 
 
     
-    //API TREINOS
-
-    @PostMapping
-    public String inserirTreino(@RequestBody Treino treino) {
-        fachada.inserirTreino(treino);
-        return "Treino inserido com sucesso";
-    }
-
-    @PutMapping(path="/{id}")
-    public String atualizarTreino(Treino treino) {
-        fachada.atualizarTreino(treino);
-        return "Treino atualizado com sucesso";
-    }
-
-    @PostMapping(path="/atualizar")
-    public String atualizarTreinoPost(@ModelAttribute("treino") Treino treino) {
-        fachada.atualizarTreino(treino);
-        return "Treino atualizado com sucesso";
-    }
-
-    @GetMapping("/usuario/{idUsuario}")
-    public List<Treino> listarTreinosUsuario(@PathVariable Long idUsuario) {
-        return fachada.listarTreinosUsuario(idUsuario);
-    }
-
-
-    @DeleteMapping(path="/{id}")
-    public String removerTreino(@PathVariable Long id) {
-        fachada.removerTreino(id);
-        return "Treino removido com sucesso";
-    }
-
-
 }

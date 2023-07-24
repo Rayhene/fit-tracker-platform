@@ -1,7 +1,10 @@
-package br.com.aps.fittracker.model.programado;
+package br.com.aps.fittracker.model.controladores;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import br.com.aps.fittracker.model.programado.CadastroExercicioProgramado;
+import br.com.aps.fittracker.model.programado.ExercicioProgramado;
 
 @Component
 public class ControladorExercicioProgramado {

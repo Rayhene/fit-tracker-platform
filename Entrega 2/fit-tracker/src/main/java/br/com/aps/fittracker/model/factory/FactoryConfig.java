@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import br.com.aps.fittracker.model.usuario.CadastroUsuario;
 import br.com.aps.fittracker.model.usuario.IUsuarioRepository;
 
 @Configuration
