@@ -1,0 +1,10 @@
+br\com\aps\fittracker\model\usuario\UsuarioRepository.class
+br\com\aps\fittracker\model\controladores\ControladorUsuario.class
+br\com\aps\fittracker\model\usuario\IUsuarioRepository.class
+br\com\aps\fittracker\model\usuario\Usuario.class
+br\com\aps\fittracker\model\usuario\UsuarioDAO.class
+br\com\aps\fittracker\model\subsistemagoogle\ISubsistemaComunicacaoGoogle.class
+br\com\aps\fittracker\controller\LoginController.class
+br\com\aps\fittracker\model\usuario\CadastroUsuario.class
+br\com\aps\fittracker\model\subsistemagoogle\ComunicacaoGoogle.class
+br\com\aps\fittracker\FitTrackerApplication.class

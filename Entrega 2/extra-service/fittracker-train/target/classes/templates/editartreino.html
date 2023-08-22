@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fit Tracker - Editar Treino</title>
+    <!-- Add your CSS styles here -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+        table {
+            width: 60%;
+            margin: 30px auto;
+            border-collapse: collapse;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tbody tr:hover {
+            background-color: #f5f5f5;
+            cursor: pointer;
+        }
+        .message {
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #e0e0e0;
+            width: 60%;
+        }
+        .exercise-names {
+            display: block;
+        }
+        .line-button {
+            background-color: rgb(66, 64, 64);
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .salvar-button {
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: teal;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="message">
+        <h2>EDITAR TREINO</h1>
+    </div>
+    
+    <form id="treinoForm"
+        action="/editartreino"
+        th:object="${treino}"
+        method="POST">
+        <div class="message">
+            <label for="nome">Nome do Treino:</label>
+            <input type="text" id="nome" name="nome" th:value="${treino.nome}" /><br>
+            <input type="hidden" id="id" name="id" th:value="${treino.id}" /><br>
+        </div>
+        <div class="message">
+            <label for="descricao">Descrição do Treino:</label>
+            <textarea id="descricao" name="descricao" th:text="${treino.descricao}"></textarea><br>
+        </div>
+        <button type="submit" class="btn btn-info col-2 mt-2">
+            Atualizar Nome/Descrição
+        </button>
+    </form>
+        
+        <!-- Table to add and remove exercises -->
+        <table id="exerciciosTable">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Series</th>
+                    <th>Repetições</th>
+                    <th>Carga</th>
+                    <th>Descanso</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Use th:each to loop through the treinos list and generate the rows -->
+                
+                <tr th:each="exercicio : ${treino.exercicios}">
+                    <form th:action="@{/editarexercicio}" method="POST">
+
+                        <td>
+                            <input type="text" name="exercicio_nome" th:value="${exercicio.nome}" />
+                        </td>
+                        <td>
+                            <input type="number" name="exercicio_series" th:value="${exercicio.series}" />
+                        </td>
+                        <td>
+                            <input type="number" name="exercicio_repeticoes" th:value="${exercicio.repeticoes}" />
+                        </td>
+                        <td>
+                            <input type="number" name="exercicio_carga" th:value="${exercicio.carga}" />
+                        </td>
+                        <td>
+                            <input type="number" name="exercicio_descanso" th:value="${exercicio.descanso}" />
+                            <input type="hidden" name="exercicio_id" th:value="${exercicio.id}" />
+                            <input type="hidden" name="idTreino" th:value="${treino.id}" /><br>
+
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-info col-2 mt-2">Atualizar Exercício</button>
+                        </td>
+                    </form>
+                    <!--<td>
+                        <button type="button" class="delete-button" onclick="deleteRow(this)">Remover</button>
+                    </td>-->
+                </tr>
+            </tbody>
+        </table>
+        
+        
+        <!-- Formulário para exclusão do treino -->
+        <form th:action="@{/deletartreino/{idTreino}(idTreino=${treino.id})}" method="POST">
+            <button type="submit" class="btn btn-danger col-2 mt-2">Excluir Treino</button>
+        </form>    
+        <button class="salvar-button" onclick="window.location.href='/treinos'">Voltar para Treinos</button>
+
+        <!-- Add this to display the success message -->
+        <div th:if="${successMsg}" class="alert alert-success">
+            <p th:text="${successMsg}"></p>
+        </div>
+
+        <!-- Add this to display the error message -->
+        <div th:if="${errorMsg}" class="alert alert-danger">
+            <p th:text="${errorMsg}"></p>
+        </div>
+    
+
+</body>
+</html>

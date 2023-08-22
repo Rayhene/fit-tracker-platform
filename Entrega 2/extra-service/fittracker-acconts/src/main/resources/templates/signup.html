@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Fit Tracker - Cadastro</title>
+  <!-- Include Vuetify and Vue.js from CDNs -->
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.5.11/dist/vuetify.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.5.11/dist/vuetify.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+  <!-- Mount point for the Vue app -->
+  <div id="app">
+    <cadastro></cadastro>
+  </div>
+
+  <!-- Vue component inline script -->
+  <script>
+    // Define the local Vue component
+    Vue.component('cadastro', {
+      template: `
+        <v-app>
+          <v-container>
+
+            <v-card class="mx-auto px-1 pb-8" min-width="200" max-width="400" height="100%" elevation="0">
+                <v-card-title class="d-flex justify-center text-wrap pa-10">Vamos criar sua conta!</v-card-title>
+  
+                <v-form v-model="form" @submit.prevent="onSubmit" class="d-flex flex-column justify-end">
+                    <v-text-field v-model="nome" :readonly="loading" :rules="[rules.required]" class="my-0 py-0" clearable
+                        label="Nome Sobrenome" density="compact"></v-text-field>
+
+                    <v-row>
+                        <v-col :cols="7">
+                            <v-text-field v-model="email" :readonly="loading" :rules="[rules.required, rules.validEmail]"
+                                type="email" class="my-0 py-0" clearable label="Email" density="compact"
+                                validate-on="blur"></v-text-field>
+                        </v-col>
+                        <v-col :cols="5">
+                            <v-text-field v-model="senha" :append-inner-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                                :type="show ? 'text' : 'password'" :rules="[rules.required, rules.validPassword]"
+                                :readonly="loading" class="my-0 py-0" clearable label="Senha" density="compact"
+                                placeholder="Digite sua senha" validate-on="input"
+                                @click:append-inner="show = !show"></v-text-field>
+                        </v-col>
+                    </v-row>
+
+                    <v-spacer></v-spacer>
+
+                    <v-btn class="mt-16 text-white" prepend-icon="mdi-plus-circle-multiple" :disabled="!form" :loading="loading"
+                        block color="var(--green-top)" size="large" type="submit" rounded variant="elevated">
+                        Cadastrar-se
+                    </v-btn>
+                </v-form>
+
+                <v-dialog v-model="dialog" max-width="300">
+                    <v-card>
+                        <v-card-title> Aviso </v-card-title>
+                        <v-card-text> {{ mensagem }} </v-card-text>
+                        <v-card-actions class="d-flex justify-center">
+                            <v-btn rounded="true" variant="tonal" color="grey darken-2" @click="direcionar">OK</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+            </v-card>
+
+          </v-container>
+        </v-app>
+      `,
+      
+      data: () => ({
+        form: false,
+        show: false,
+        nome: null,
+        email: null,
+        senha: null,
+        loading: false,
+        rules: {
+            required: (value) => !!value || 'Campo obrigatório',
+            validEmail: (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || 'Email inválido',
+            validPassword: (value) => /^\S{6,}$/.test(value) || 'A senha deve ter 6 caracteres ou mais',
+        },
+        dialog: false,
+        mensagem: null,
+        cadastroRealizado: false
+    }),
+      methods: {
+        greet() {
+          alert("Hello, Vue method!");
+        },
+        async onSubmit() {
+            // implementar request
+
+            if (!this.form) return
+
+            this.loading = true
+
+            const formData = {
+              nome: this.nome,
+              email: this.email,
+              senha: this.senha,
+            };
+
+            axios
+                .post("http://localhost:8080/signup", formData)
+                .then(response => {
+                  if (response.status == 200) {
+                    this.cadastroRealizado = true
+                  }
+                  
+                    this.mensagem = response.data
+
+                  console.log("Form submitted successfully!");
+                  console.log(response.data);
+                  console.log(response.status);
+                })
+                .catch(error => {
+                  this.mensagem = error.response.data
+                
+                  console.error("Error submitting the form:", error);
+                });
+                this.loading = false
+                this.dialog = true
+                setTimeout(() => (this.loading = false), 2000)
+        },
+
+        direcionar() {
+            if (this.cadastroRealizado) {
+                axios
+                    .get("http://localhost:8080/signup/back")
+                    .then(response => {
+                        // Handle the response from the server, if needed
+                        console.log("Login GET request successful!");
+                        
+                        console.log(response.data);
+                        console.log(response.data.redirectUrl);
+                        window.location.href = response.data.redirect;
+                          //window.location.href = response.data.redirectUrl;
+                        
+                    })
+                    .catch(error => {
+                        // Handle errors, if any
+                        console.error("Error performing login GET request:", error);
+                    });
+            } 
+            this.dialog = false
+            
+        }
+      },
+    });
+
+    // Create the Vue app
+    new Vue({
+      el: '#app',
+      vuetify: new Vuetify(),
+    });
+  </script>
+</body>
+</html>
