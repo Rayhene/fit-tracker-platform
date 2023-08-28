@@ -9,6 +9,7 @@ import br.com.aps.fittracker.model.usuario.IUsuarioRepository;
 @Configuration
 public class FactoryConfig {
 
+    // Bean para passar o tipo de repositório na inicialização do Factory
     @Bean
     public IRepositorioFactory repositorioFactory(@Value("${app.repository.type}") String tipoRepositorio) {
         if(tipoRepositorio.equals("json")){
@@ -19,7 +20,8 @@ public class FactoryConfig {
         }
     }
 
-    @Bean
+    // Bean para passar o IUsuarioRepository na inicialização do CadastroUsuario
+    @Bean 
     public IUsuarioRepository usuarioRepositoryByFactory(IRepositorioFactory repositorioFactory) {
         return repositorioFactory.criarRepositorioUsuarios();
     }

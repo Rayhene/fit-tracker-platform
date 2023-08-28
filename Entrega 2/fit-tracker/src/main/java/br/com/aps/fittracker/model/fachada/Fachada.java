@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import br.com.aps.fittracker.model.controladores.ControladorExercicioProgramado;
 import br.com.aps.fittracker.model.controladores.ControladorTreino;
 import br.com.aps.fittracker.model.controladores.ControladorUsuario;
+import br.com.aps.fittracker.model.factory.IRepositorioFactory;
 import br.com.aps.fittracker.model.programado.ExercicioProgramado;
 import br.com.aps.fittracker.model.treino.Treino;
 import br.com.aps.fittracker.model.usuario.Usuario;
@@ -24,6 +25,10 @@ public class Fachada {
     @Autowired
     private ControladorExercicioProgramado controladorExercicioProgramado;
 
+    // Sem AutoWired, pois o Bean é criado no FactoryConfig
+    private IRepositorioFactory repositorioFactory;
+
+    
     public void inserirTreino(Treino treino){
         controladorTreino.inserir(treino);
     }

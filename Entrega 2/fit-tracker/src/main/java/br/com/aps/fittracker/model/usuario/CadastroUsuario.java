@@ -8,12 +8,22 @@ import br.com.aps.fittracker.model.factory.IRepositorioFactory;
 @Component
 public class CadastroUsuario {
     
+    // Sem AutoWired, pois o Bean é criado no FactoryConfig
     private IUsuarioRepository usuarioRepository;
-    private IRepositorioFactory repositorioFactory;
+    
+    // AJUSTE DE PROJETO: repositorioFactory retirada do Cadastro e passado para a Fachada
+    //private IRepositorioFactory repositorioFactory;  
 
-    @Autowired
+    // AJUSTE DE PROJETO: repositorioFactory retirada do Cadastro e passado para a Fachada
+    /*@Autowired
     public CadastroUsuario(IRepositorioFactory repositorioFactory, IUsuarioRepository usuarioRepositoryByFactory) {
         this.repositorioFactory = repositorioFactory;
+        this.usuarioRepository = usuarioRepositoryByFactory;
+    } */ 
+
+    // AJUSTE DE PROJETO: repositorioFactory retirada do Cadastro e passado para a Fachada
+    @Autowired
+    public CadastroUsuario(IUsuarioRepository usuarioRepositoryByFactory) { //Bean no FactoryConfig
         this.usuarioRepository = usuarioRepositoryByFactory;
     }
 
