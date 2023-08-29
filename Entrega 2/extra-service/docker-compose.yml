@@ -1,0 +1,25 @@
+
+version: "3"
+services:
+    account:
+        build:
+            context: ./fittracker-acconts/
+        depends_on:
+            - discovery
+    treino:
+        build:
+            context: ./fittracker-train/
+        depends_on:
+             - discovery
+    discovery:
+        build:
+            context: ./discovery-server/
+        ports:
+            - "8761:8761"
+    gateway:
+        build:
+            context: ./gateway
+        depends_on:
+            - discovery
+        ports:
+             - "8084:8084"
