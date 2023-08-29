@@ -1,10 +1,10 @@
-c:\Users\patar\OneDrive\VS Projects\fit-tracker-platform\Entrega 2\extra-service\fittracker-acconts\src\main\java\br\com\aps\fittracker\FitTrackerApplication.java
-c:\Users\patar\OneDrive\VS Projects\fit-tracker-platform\Entrega 2\extra-service\fittracker-acconts\src\main\java\br\com\aps\fittracker\model\usuario\IUsuarioRepository.java
-c:\Users\patar\OneDrive\VS Projects\fit-tracker-platform\Entrega 2\extra-service\fittracker-acconts\src\main\java\br\com\aps\fittracker\model\usuario\Usuario.java
-c:\Users\patar\OneDrive\VS Projects\fit-tracker-platform\Entrega 2\extra-service\fittracker-acconts\src\main\java\br\com\aps\fittracker\model\subsistemagoogle\ComunicacaoGoogle.java
-c:\Users\patar\OneDrive\VS Projects\fit-tracker-platform\Entrega 2\extra-service\fittracker-acconts\src\main\java\br\com\aps\fittracker\model\usuario\CadastroUsuario.java
-c:\Users\patar\OneDrive\VS Projects\fit-tracker-platform\Entrega 2\extra-service\fittracker-acconts\src\main\java\br\com\aps\fittracker\model\controladores\ControladorUsuario.java
-c:\Users\patar\OneDrive\VS Projects\fit-tracker-platform\Entrega 2\extra-service\fittracker-acconts\src\main\java\br\com\aps\fittracker\model\usuario\UsuarioDAO.java
-c:\Users\patar\OneDrive\VS Projects\fit-tracker-platform\Entrega 2\extra-service\fittracker-acconts\src\main\java\br\com\aps\fittracker\controller\LoginController.java
-c:\Users\patar\OneDrive\VS Projects\fit-tracker-platform\Entrega 2\extra-service\fittracker-acconts\src\main\java\br\com\aps\fittracker\model\subsistemagoogle\ISubsistemaComunicacaoGoogle.java
-c:\Users\patar\OneDrive\VS Projects\fit-tracker-platform\Entrega 2\extra-service\fittracker-acconts\src\main\java\br\com\aps\fittracker\model\usuario\UsuarioRepository.java
+/home/ray/Projetos/fit-tracker-platform/Entrega 2/extra-service/fittracker-acconts/src/main/java/br/com/aps/fittracker/model/usuario/Usuario.java
+/home/ray/Projetos/fit-tracker-platform/Entrega 2/extra-service/fittracker-acconts/src/main/java/br/com/aps/fittracker/model/usuario/CadastroUsuario.java
+/home/ray/Projetos/fit-tracker-platform/Entrega 2/extra-service/fittracker-acconts/src/main/java/br/com/aps/fittracker/controller/LoginController.java
+/home/ray/Projetos/fit-tracker-platform/Entrega 2/extra-service/fittracker-acconts/src/main/java/br/com/aps/fittracker/model/usuario/IUsuarioRepository.java
+/home/ray/Projetos/fit-tracker-platform/Entrega 2/extra-service/fittracker-acconts/src/main/java/br/com/aps/fittracker/model/usuario/UsuarioRepository.java
+/home/ray/Projetos/fit-tracker-platform/Entrega 2/extra-service/fittracker-acconts/src/main/java/br/com/aps/fittracker/FitTrackerApplication.java
+/home/ray/Projetos/fit-tracker-platform/Entrega 2/extra-service/fittracker-acconts/src/main/java/br/com/aps/fittracker/model/usuario/UsuarioDAO.java
+/home/ray/Projetos/fit-tracker-platform/Entrega 2/extra-service/fittracker-acconts/src/main/java/br/com/aps/fittracker/model/subsistemagoogle/ComunicacaoGoogle.java
+/home/ray/Projetos/fit-tracker-platform/Entrega 2/extra-service/fittracker-acconts/src/main/java/br/com/aps/fittracker/model/subsistemagoogle/ISubsistemaComunicacaoGoogle.java
+/home/ray/Projetos/fit-tracker-platform/Entrega 2/extra-service/fittracker-acconts/src/main/java/br/com/aps/fittracker/model/controladores/ControladorUsuario.java

@@ -1,0 +1,16 @@
+server:
+    port: 8084
+spring:
+    application:
+      name: gateway
+    cloud:
+        gateway:
+            routes:
+                - id: account 
+                  uri: lb://account
+                  predicates:
+                  - Path=/account/**
+                - id: treinos
+                  uri: lb://treinos
+                  predicates:
+                    - Path=/treinos/**

@@ -17,7 +17,7 @@ public class AccountServiceAPI implements IAccountAPI {
     private String accountServiceUrl;
 
     public AccountServiceAPI(WebClient.Builder wBuilder, ReactiveCircuitBreakerFactory cbFactory) {
-        //this.webClient = wBuilder.baseUrl("lb://account").build();
+        // this.webClient = wBuilder.baseUrl("lb://account").build();
         this.webClient = wBuilder.baseUrl("http://localhost:8080").build();
         this.circuitBreaker = cbFactory.create("account");
     }
