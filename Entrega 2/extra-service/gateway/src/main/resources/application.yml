@@ -10,7 +10,7 @@ spring:
                   uri: lb://account
                   predicates:
                   - Path=/account/**
-                - id: treinos
-                  uri: lb://treinos
+                - id: treino
+                  uri: lb://treino
                   predicates:
-                    - Path=/treinos/**
+                    - Path=/treino/**
