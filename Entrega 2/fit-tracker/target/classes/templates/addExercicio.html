@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Fit Tracker - Adicionar Exercicio</title>
+    <!-- Add your CSS styles here -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+        table {
+            width: 60%;
+            margin: 30px auto;
+            border-collapse: collapse;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tbody tr:hover {
+            background-color: #f5f5f5;
+            cursor: pointer;
+        }
+        .message {
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #e0e0e0;
+            width: 60%;
+        }
+        .exercise-names {
+            display: block;
+        }
+        .line-button {
+            background-color: rgb(66, 64, 64);
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .salvar-button {
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: teal;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="message">
+        <h2>NOVO EXERCÍCIO</h1>
+    </div>
+    <!-- Form to provide treino.nome and treino.descricao -->
+    <form id="treinoForm">
+        
+        <!-- Add a hidden input field to store the usuarioId from the cookie -->
+        <input type="hidden" id="usuarioId" name="treino.usuario.id" value="">
+
+        <!-- Table to add and remove exercises -->
+        <table id="exerciciosTable">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th>Grupo Muscular</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Initial empty row to add exercises -->
+                <tr>
+                    <td>
+                        <input type="text" name="exercicio.nome">
+                    </td>
+                    <td>
+                        <input type="text" name="exercicio.descricao">
+                    </td>
+                    <td>
+                        <select name="exercicio.grupoMuscular">
+                            <option value="" disabled selected>Selecione abaixo...       </option>
+                            <option value="Peito">Peito</option>
+                            <option value="Costas">Costas</option>
+                            <option value="Pernas">Pernas</option>
+                            <option value="Ombros">Ombros</option>
+                            <option value="Braços">Braços</option>
+                        </select>
+                    </td>
+                </tr>
+                
+            </tbody>
+            
+        </table>
+        
+        <button type="button" class="salvar-button" onclick="salvarTreino()">Salvar Novo Exercício</button>
+    </form>
+
+    <!-- Add scripts here -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        function addRow() {
+            var table = document.getElementById("exerciciosTable").getElementsByTagName('tbody')[0];
+            var newRow = table.insertRow(table.rows.length);
+
+            var cell1 = newRow.insertCell(0);
+            var cell2 = newRow.insertCell(1);
+            var cell3 = newRow.insertCell(2);
+            var cell4 = newRow.insertCell(3);
+            var cell5 = newRow.insertCell(4);
+            var cell6 = newRow.insertCell(5);
+
+            var newIndex = table.rows.length - 1;
+
+            cell1.innerHTML = '<input type="text" name="exercicio.nome">';
+            cell2.innerHTML = '<input type="number" name="exercicio.series">';
+            cell3.innerHTML = '<input type="number" name="exercicio.repeticoes">';
+            cell4.innerHTML = '<input type="number" name="exercicio.carga">';
+            cell5.innerHTML = '<input type="number" name="exercicio.descanso">';
+            cell6.innerHTML = '<button type="button" class="delete-button" onclick="deleteRow(this)">Remover</button>';
+        }
+
+        function deleteRow(button) {
+            var row = button.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+
+        function salvarTreino() {
+            var form = document.getElementById("treinoForm");
+            var formData = new FormData(form);
+            var requestData = {};
+
+            formData.forEach((value, key) => {
+                if (!key.includes('exercicio.')) {
+                    requestData[key] = value;
+                }
+            });
+
+            var exercicios = [];
+            var rows = document.getElementById('exerciciosTable').getElementsByTagName('tbody')[0].rows;
+            for (const element of rows) {
+                var exercise = {
+                    nome: element.querySelector('input[name="exercicio.nome"]').value,
+                    series: parseInt(element.querySelector('input[name="exercicio.series"]').value),
+                    repeticoes: parseInt(element.querySelector('input[name="exercicio.repeticoes"]').value),
+                    carga: parseInt(element.querySelector('input[name="exercicio.carga"]').value),
+                    descanso: parseInt(element.querySelector('input[name="exercicio.descanso"]').value)
+                };
+                exercicios.push(exercise);
+            }
+
+            requestData.exercicios = exercicios;
+
+            // Get the usuarioId from the cookie and add it to the object
+            var usuarioId = getCookie('usuarioId');
+            //var usuarioId = 1;
+            requestData.usuario = {id: usuarioId};
+            console.log(requestData);
+            axios.post("/addtreino", requestData, {
+            }).then(response => {
+                alert(response.data);
+                window.location.href = "/treinos";
+            }).catch(error => {
+                alert("Erro ao salvar o treino: " + error.response.data);
+                
+            });
+            }
+
+        // Function to retrieve a specific cookie value by name
+        function getCookie(name) {
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            if (parts.length === 2) return parts.pop().split(";").shift();
+        }
+    </script>
+</body>
+</html>
