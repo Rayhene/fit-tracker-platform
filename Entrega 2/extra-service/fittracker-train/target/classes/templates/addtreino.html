@@ -178,7 +178,7 @@
             //var usuarioId = 1;
             requestData.usuarioId = usuarioId;// {id: usuarioId};
             console.log(requestData);
-            axios.post("/addtreino", requestData, {
+            axios.post("/treinos/addtreino", requestData, {
             }).then(response => {
                 alert(response.data);
                 window.location.href = "/treinos";

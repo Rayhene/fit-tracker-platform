@@ -25,7 +25,7 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 import br.com.aps.fittracker.model.controladores.ControladorUsuario;
 import br.com.aps.fittracker.model.usuario.Usuario;
 
-@RequestMapping(path="/")
+@RequestMapping(path="/account")
 @Controller
 public class LoginController {
 
@@ -35,19 +35,27 @@ public class LoginController {
     @Autowired
     private DiscoveryClient discoveryClient;
 
+    @Value("${gateway_treino_url}")
+    private String treinosUrl;
+
     //@Value("${treino_service_url}")
     //private String treinosUrl;
 
-    @ModelAttribute("treinosUrl")
+    //@ModelAttribute("treinosUrl")
     private String getTreinosUrl() {
-        ServiceInstance sInstance = discoveryClient.getInstances("treino").iterator().next();
-        return String.format(
-                "%s://%s:%s/treinos", sInstance.getScheme(), sInstance.getHost(), sInstance.getPort());
+        //ServiceInstance sInstance = discoveryClient.getInstances("gateway").iterator().next();        
+        //return String.format(
+        //       "%s://%s:%s/treinos", sInstance.getScheme(), sInstance.getHost(), sInstance.getPort());
+
+        //String routePath = "lb://treino/treinos";
+        //String routePath = "http://localhost:8084/treinos";
+        String routePath = treinosUrl;
+        return routePath;
     }
 
     @GetMapping(path="/login")
     public String login() {
-        return "/login";
+        return "login";
     }
 
     @PostMapping(path="/login")
@@ -58,6 +66,7 @@ public class LoginController {
             String email = loginRequest.get("email");
             String senha = loginRequest.get("senha");
             Usuario usuario = fachada.login(email, senha);
+            System.out.println("\n#########\n" + getTreinosUrl() + "\n#########\n");
             responseData.put("redirect", getTreinosUrl());
             responseData.put("usuarioId", Long.toString(usuario.getId()));
             return ResponseEntity.ok(responseData);
@@ -100,7 +109,7 @@ public class LoginController {
     @GetMapping(path="/signup/back")
     public ResponseEntity<Map<String, String>> backToLogin() {
         Map<String, String> responseData = new HashMap<>();
-        responseData.put("redirect", "/login");
+        responseData.put("redirect", "login");
         return ResponseEntity.ok(responseData);
     }
 

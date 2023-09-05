@@ -61,7 +61,7 @@
     </div>
     
     <form id="treinoForm"
-        action="/editartreino"
+        action="/treinos/editartreino"
         th:object="${treino}"
         method="POST">
         <div class="message">
@@ -94,7 +94,7 @@
                 <!-- Use th:each to loop through the treinos list and generate the rows -->
                 
                 <tr th:each="exercicio : ${treino.exercicios}">
-                    <form th:action="@{/editarexercicio}" method="POST">
+                    <form th:action="@{/treinos/editarexercicio}" method="POST">
 
                         <td>
                             <input type="text" name="exercicio_nome" th:value="${exercicio.nome}" />
@@ -127,7 +127,7 @@
         
         
         <!-- Formulário para exclusão do treino -->
-        <form th:action="@{/deletartreino/{idTreino}(idTreino=${treino.id})}" method="POST">
+        <form th:action="@{/treinos/deletartreino/{idTreino}(idTreino=${treino.id})}" method="POST">
             <button type="submit" class="btn btn-danger col-2 mt-2">Excluir Treino</button>
         </form>    
         <button class="salvar-button" onclick="window.location.href='/treinos'">Voltar para Treinos</button>

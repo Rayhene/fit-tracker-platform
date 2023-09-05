@@ -1,16 +1,27 @@
 server:
     port: 8084
+    forward-headers-strategy: framework
+
+eureka:
+      client:
+        service-url:
+          defaultZone: http://discovery:8761/eureka/
 spring:
     application:
       name: gateway
+    
+    #instance:
+      #prefer-ip-address: true
     cloud:
         gateway:
+            forwarded-headers:
+              enabled: true
             routes:
-                - id: account 
+                - id: account
                   uri: lb://account
                   predicates:
                   - Path=/account/**
                 - id: treino
                   uri: lb://treino
                   predicates:
-                    - Path=/treino/**
+                    - Path=/treinos/**

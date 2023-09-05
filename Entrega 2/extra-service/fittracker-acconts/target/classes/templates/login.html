@@ -53,7 +53,7 @@
         // Login com google
       function handleCredentialResponse(response) {
         console.log("Encoded JWT ID token: " + response.credential);
-        sendLoginRequest("/login/google", response.credential);
+        sendLoginRequest("login/google", response.credential);
         /*
         axios
             .post("/login/google", response.credential)
@@ -118,7 +118,7 @@
                     </v-btn>
                 </v-form>
 
-                <p class="px-4 mt-2">Clique <a href="/signup" >aqui</a> para criar uma nova conta.</p>
+                <p class="px-4 mt-2">Clique <a href="signup" >aqui</a> para criar uma nova conta.</p>
         
             </v-card>
 
@@ -148,7 +148,7 @@
                     senha: this.senha
             };
             console.log(dados);
-            sendLoginRequest("/login", dados);
+            sendLoginRequest("login", dados);
             /*
             axios
                 .post("/login", dados)
